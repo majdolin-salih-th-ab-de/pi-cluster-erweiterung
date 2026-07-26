@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  main:
+    image: pi_cluster:latest
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    ports:
+      - "5001:5001"
+    environment:
+      - EXPECTED_WORKERS=12
+    networks:
+      - pi_net
+    #command: ["python", "main.py"]
+
+  worker:
+    image: pi_cluster:latest
+    deploy:
+      replicas: 12
+      placement:
+        constraints:
+          - node.role == worker
+    environment:
+      - MAIN_HOST=main
+      - MAIN_PORT=5001
+    networks:
+      - pi_net
+    command: ["python", "worker.py"]
+
+networks:
+  pi_net:
+    driver: overlay

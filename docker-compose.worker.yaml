@@ -1,0 +1,16 @@
+services:
+  worker:
+    image: pi_cluster:latest
+    # container_name: cluster_worker # uncommenting this will only work with one container running (names have to be unique)
+    environment:
+      - MAIN_HOST=127.0.0.1      # TODO IP vom Main-Pi anpassen
+      - MAIN_PORT=5001
+    network_mode:
+      host
+    command: ["python", "worker.py"]
+
+# networks:
+#   pi_net:
+#     driver: bridge
+
+# docker-compose -f docker-compose.worker.yml up -d

@@ -1,0 +1,58 @@
+Docker installieren:
+
+-> Prüfen, ob kein Docker darauf installiert ist (keine Ausgabe)
+which docker
+which containerd
+ls -al /usr/bin | grep docker
+
+-> System aktualisieren
+Paketliste aktualisieren:
+sudo apt-get update
+sudo apt-get upgrade -y
+
+Wichtig: Neustart des Systems
+sudo reboot
+
+-> Jetzt Docker Installation
+1. Abhängigkeiten installieren:
+sudo apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+2. Docker GPG-Schlüssel hinzufügen:
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+
+3. Docker-Repository hinzufügen:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+4. Docker installieren:
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+-> Docker einrichten & testen
+1. Docker-Dienste aktivieren und starten:
+sudo systemctl enable docker
+sudo systemctl start docker
+
+2. Prüfen, ob Docker läuft:
+sudo systemctl status docker
+
+3. Funktionstest mit einem Container:
+sudo docker run hello-world
+
+-> Optionale Konfiguration
+
+1. Zugriff ohne sudo ermöglichen:
+sudo usermod -aG docker $USER
+
+2. Docker-Version prüfen:(sollen übereinstimmen auf allen Pis)
+docker --version
+docker compose version
+
+(bei Pi 3: 27.4.0; v2.31.0)

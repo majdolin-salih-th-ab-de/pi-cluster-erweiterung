@@ -1,0 +1,33 @@
+services:
+  main:
+    build: .
+    container_name: cluster_main
+    image: pi_cluster:latest
+    networks:
+      - pi_net
+    environment:
+      - TOTAL_SAMPLES=3000000
+      - EXPECTED_WORKERS=16
+    volumes:
+      - ./src/:/src
+    ports:
+      - "5001:5001"
+    #command: ["python", "main.py"]  # Dummy Command weiterhin aktiv
+
+  worker:
+    build: .
+    image: pi_cluster:latest
+    networks:
+      - pi_net
+    deploy:
+      replicas: 16
+    environment:
+      - MAIN_HOST=main
+      - MAIN_PORT=5001
+    volumes:
+      - ./src/:/src
+    command: ["python", "worker.py"]
+
+networks:
+  pi_net:
+    driver: bridge

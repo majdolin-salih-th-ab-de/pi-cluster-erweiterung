@@ -1,0 +1,22 @@
+services:
+  main:
+    image: pi_cluster:latest
+    container_name: cluster_main
+    # Worüber die Worker mit dem Main reden sollen:
+    ports:
+      - "5001:5001"
+    environment:
+      - TOTAL_SAMPLES=3000000
+      - EXPECTED_WORKERS=1
+    # Damit die Namensauflösung unter Docker funktioniert
+    # (sofern du alle Container auf EINEM Host laufen lässt).
+    # ABER da wir Worker auf ANDEREN Pis starten, brauchen wir
+    # die IP in den Worker-Compose-Files. 
+    network_mode: host
+    #networks:
+    #  - host
+    command: ["python", "-u", "main.py"]
+
+
+
+# docker-compose -f docker-compose.main.yaml up -d
