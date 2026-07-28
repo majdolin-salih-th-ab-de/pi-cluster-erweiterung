@@ -22,7 +22,7 @@ services:
     deploy:
       replicas: 50
     environment:
-      - MAIN_HOST=main
+      - MAIN_HOST=10.97.3.24
       - MAIN_PORT=5001
     volumes:
       - ./src/:/src
