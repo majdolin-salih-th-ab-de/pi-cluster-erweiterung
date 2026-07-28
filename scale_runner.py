@@ -9,7 +9,7 @@ COMPOSE_FILE = os.path.join(
     "docker-compose.yaml"
 )
 
-WORKER_COUNTS = [6, 12, 18, 24, 30]
+WORKER_COUNTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 18, 21, 24, 27, 30]
 FIXED_SAMPLES = 10_000_000
 
 
