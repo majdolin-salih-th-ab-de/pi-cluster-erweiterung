@@ -42,7 +42,7 @@ def automated_test_mode():
 
 def scale_test():
     """Testet automatisch mit verschiedenen Worker-Anzahlen (Amdahl's Law)."""
-    worker_counts = [1, 2, 3, 4, 6, 8, 10, 20, 30, 40, 50]
+    worker_counts = [6, 12, 18, 24, 30]
     fixed_samples = 10_000_000
     scaling_results = []
 

@@ -20,7 +20,7 @@ services:
     networks:
       - pi_net
     deploy:
-      replicas: 50
+      replicas: 5
     environment:
       - MAIN_HOST=10.97.3.24
       - MAIN_PORT=5001
