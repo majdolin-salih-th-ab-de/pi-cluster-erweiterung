@@ -2,14 +2,15 @@ import re
 import os
 import time
 import subprocess
+import matplotlib.pyplot as plt
 
 COMPOSE_FILE = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
     "docker-compose.yaml"
 )
 
-WORKER_COUNTS = [1, 2, 3, 4, 6, 8, 10, 12, 16]
-FIXED_SAMPLES = 1_000_000
+WORKER_COUNTS = [1, 2, 3, 4, 6, 8, 10, 20, 30, 40, 50]
+FIXED_SAMPLES = 10_000_000
 
 
 def update_compose(n_workers):
@@ -38,21 +39,11 @@ for n in WORKER_COUNTS:
     os.system("docker build -t pi_cluster:latest .")
     os.system("docker compose up -d")
 
-    print("[SCALE] Warte 20 Sekunden...")
-    time.sleep(20)
+    print("[SCALE] Warte 30 Sekunden...")
+    time.sleep(30)
 
     print(f"[SCALE] Starte Messung mit {FIXED_SAMPLES:,} Samples...")
     start = time.perf_counter()
-
-    cmd = (
-        f'docker exec cluster_main python -c "'
-        f'import sys; sys.path.insert(0, chr(47)+chr(115)+chr(114)+chr(99)); '
-        f'from distribution import distribute_work; '
-        f'from worker_manager import worker_addresses; '
-        f'import time; time.sleep(5); '
-        f'result = distribute_work({FIXED_SAMPLES}); '
-        f'print(result)"'
-    )
 
     proc = subprocess.run(
         ["docker", "exec", "cluster_main", "python", "-c",
@@ -86,8 +77,6 @@ for r in results:
     print(f"{r['workers']:>7} | {r['sps']:>14,.0f}")
 
 # Plot
-import matplotlib.pyplot as plt
-
 workers = [r["workers"] for r in results]
 speeds = [r["sps"] for r in results]
 
@@ -102,4 +91,3 @@ plt.legend()
 os.makedirs("output", exist_ok=True)
 plt.savefig("output/scale_results.png")
 print("[PLOT] Gespeichert: output/scale_results.png")
-plt.show()

@@ -7,7 +7,7 @@ services:
       - pi_net
     environment:
       - TOTAL_SAMPLES=3000000
-      - EXPECTED_WORKERS=16
+      - EXPECTED_WORKERS=50
     volumes:
       - ./src/:/src
     ports:
@@ -20,7 +20,7 @@ services:
     networks:
       - pi_net
     deploy:
-      replicas: 16
+      replicas: 50
     environment:
       - MAIN_HOST=main
       - MAIN_PORT=5001

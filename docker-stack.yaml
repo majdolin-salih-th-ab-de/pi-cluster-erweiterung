@@ -11,7 +11,7 @@ services:
     ports:
       - "5001:5001"
     environment:
-      - EXPECTED_WORKERS=12
+      - EXPECTED_WORKERS=50
     networks:
       - pi_net
     #command: ["python", "main.py"]
