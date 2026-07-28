@@ -11,7 +11,7 @@ services:
     ports:
       - "5001:5001"
     environment:
-      - EXPECTED_WORKERS=50
+      - EXPECTED_WORKERS=30
     networks:
       - pi_net
     #command: ["python", "main.py"]
@@ -19,7 +19,7 @@ services:
   worker:
     image: pi_cluster:latest
     deploy:
-      replicas: 12
+      replicas: 5
       placement:
         constraints:
           - node.role == worker

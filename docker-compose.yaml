@@ -7,7 +7,7 @@ services:
       - pi_net
     environment:
       - TOTAL_SAMPLES=3000000
-      - EXPECTED_WORKERS=50
+      - EXPECTED_WORKERS=30
     volumes:
       - ./src/:/src
     ports:
